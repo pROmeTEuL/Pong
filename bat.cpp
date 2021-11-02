@@ -5,7 +5,7 @@ Bat::Bat(float startX, float startY)
     m_Position.x = startX;
     m_Position.y = startY;
 
-    m_Shape.setSize(sf::Vector2f(50, 5));
+    m_Shape.setSize(sf::Vector2f(100, 5));
     m_Shape.setPosition(m_Position);
 }
 
@@ -17,6 +17,14 @@ FloatRect Bat::getPosition()
 RectangleShape Bat::getShape()
 {
     return m_Shape;
+}
+
+void Bat::setPosition(float X, float Y)
+{
+    m_Position.x = X;
+    m_Position.y = Y;
+
+    m_Shape.setPosition(m_Position);
 }
 
 void Bat::moveLeft()

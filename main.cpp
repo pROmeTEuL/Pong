@@ -1,6 +1,7 @@
 #include <sstream>
 #include <cstdlib>
 #include "bat.h"
+#include "ball.h"
 
 int main()
 {
@@ -11,8 +12,7 @@ int main()
     int lives = 3;
 
     Bat bat(1920 / 2, 1080 - 20);
-    //urmeaza mingea |  :)
-    //               V
+    Ball ball(1920/2, 0);
 
     Text hud;
     Font font;
@@ -49,15 +49,43 @@ int main()
          ********************/
         Time dt = clock.restart();
         bat.update(dt);
+        ball.update(dt);
         std::stringstream ss;
         ss << "Score:" << score << "  Lives:" << lives;
         hud.setString(ss.str());
+
+        if (ball.getPosition().top > window.getSize().y)
+        {
+            ball.reboundBottom();
+            --lives;
+
+            if(lives < 1) {
+                score = 0;
+                lives = 3;
+            }
+        }
+
+        if (ball.getPosition().top < 0)
+        {
+            ball.reboundBatOrTop();
+
+            ++score;
+        }
+        if (ball.getPosition().left < 0 || ball.getPosition().left + ball.getPosition().width > window.getSize().x)
+            ball.reboundSides();
+        if (ball.getPosition().intersects(bat.getPosition()))
+            ball.reboundBatOrTop();
+        if (bat.getPosition().left + bat.getPosition().width < 0)
+            bat.setPosition(1920, bat.getPosition().top);
+        if (bat.getPosition().left  > window.getSize().x)
+            bat.setPosition(0 - bat.getPosition().width, bat.getPosition().top);
         /*******************
          *******DRAW********
          *******************/
         window.clear();
         window.draw(hud);
         window.draw(bat.getShape());
+        window.draw(ball.getShape());
         window.display();
     }
     return 0;

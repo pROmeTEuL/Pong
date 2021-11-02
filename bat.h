@@ -14,6 +14,7 @@ public:
     Bat(float startX, float startY);
     FloatRect getPosition();
     RectangleShape getShape();
+    void setPosition(float X, float Y);
     void moveLeft();
     void moveRight();
     void stopLeft();
