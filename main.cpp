@@ -1,3 +1,4 @@
+#include <SFML/Audio.hpp>
 #include <sstream>
 #include <cstdlib>
 #include "bat.h"
@@ -22,6 +23,23 @@ int main()
     hud.setFillColor(Color::White);
     hud.setPosition(20, 20);
     Clock clock;
+
+    SoundBuffer zid;
+    zid.loadFromFile("sounds/ZidCol.wav");
+    SoundBuffer sus;
+    sus.loadFromFile("sounds/SusCol.wav");
+    SoundBuffer jos;
+    jos.loadFromFile("sounds/JosCol.wav");
+    SoundBuffer rip;
+    rip.loadFromFile("sounds/Rip.wav");
+    Sound sZid;
+    sZid.setBuffer(zid);
+    Sound sSus;
+    sSus.setBuffer(sus);
+    Sound sJos;
+    sJos.setBuffer(jos);
+    Sound sRip;
+    sRip.setBuffer(rip);
     /*********************
      ********WHILE********
      *********************/
@@ -62,19 +80,25 @@ int main()
             if(lives < 1) {
                 score = 0;
                 lives = 3;
-            }
+                sRip.play();
+            } else
+                sJos.play();
         }
 
         if (ball.getPosition().top < 0)
         {
             ball.reboundBatOrTop();
-
+            sSus.play();
             ++score;
         }
-        if (ball.getPosition().left < 0 || ball.getPosition().left + ball.getPosition().width > window.getSize().x)
+        if (ball.getPosition().left < 0 || ball.getPosition().left + ball.getPosition().width > window.getSize().x) {
             ball.reboundSides();
-        if (ball.getPosition().intersects(bat.getPosition()))
+            sZid.play();
+        }
+        if (ball.getPosition().intersects(bat.getPosition())) {
             ball.reboundBatOrTop();
+            sZid.play();
+        }
         if (bat.getPosition().left + bat.getPosition().width < 0)
             bat.setPosition(1920, bat.getPosition().top);
         if (bat.getPosition().left  > window.getSize().x)

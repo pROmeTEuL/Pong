@@ -11,7 +11,11 @@ SOURCES += \
         main.cpp
 
 DISTFILES += \
-    fonts/DS-DIGI.TTF
+    fonts/DS-DIGI.TTF \
+    sounds/JosCol.wav \
+    sounds/Rip.wav \
+    sounds/SusCol.wav \
+    sounds/ZidCol.wav
 
 HEADERS += \
     ball.h \
