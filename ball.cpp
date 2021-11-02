@@ -32,13 +32,19 @@ void Ball::reboundSides()
 void Ball::reboundBatOrTop()
 {
     m_DirectionY = -m_DirectionY;
+    m_Speed *= 1.1f;
 }
 
 void Ball::reboundBottom()
 {
-    m_Position.y = 0;
+    m_Position.y = 10;
     m_Position.x = 500;
     m_DirectionY = -m_DirectionY;
+    --m_lives;
+    if (m_lives < 0) {
+        m_lives = 3;
+        m_Speed = 700.0f;
+    }
 }
 
 void Ball::update(Time dt)
